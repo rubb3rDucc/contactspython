@@ -6,6 +6,7 @@
  - needs to load contacts in memory
 """
 
+
 import json
 
 READ_FILE = 'contact.json'
@@ -21,13 +22,13 @@ class Contact:
         self.contact_type = contact_type
 
     def to_string(self):
-        print(f"\n\
+        return f"\n\
                 First: {self.fname}\n\
                 Last: {self.lname}\n\
                 Phone: {self.phone}\n\
                 Email: {self.email}\n\
-                Contact Type: {self.contact_type}")
-    
+                Contact Type: {self.contact_type}"
+
     def __iter__(self):
         for item in self.__dict__.items():
             yield item
@@ -50,7 +51,7 @@ def switch(arg, in_memory_dict):
     elif arg == "l":
         print("\nlist, not implemented")
         for i in in_memory_dict:
-            in_memory_dict[i].to_string()
+            print(in_memory_dict[i].to_string())
     elif arg == "q":
         write_json_file(in_memory_dict)
         print("\nty for using, gb")
@@ -61,7 +62,7 @@ def switch(arg, in_memory_dict):
 def load_json_file(in_memory_dict):
     file = open(READ_FILE, 'r')
     data = json.load(file)
-    index = 0;
+    index = 0
     for item in data['contacts']:
         new_contact = Contact(item['fname'], item['lname'], item['phone'],
                               item['email'], item['contact_type'])
@@ -79,15 +80,15 @@ def write_json_file(in_memory_dict):
         contact_dict.append(in_memory_dict[contact].__dict__)
 
     formatted_json = '{ "contacts": ' + \
-                    str(contact_dict).replace("\'", "\"") + \
-                     '}'
+        str(contact_dict).replace("\'", "\"") + \
+        '}'
 
     try:
         with open(WRITE_FILE, 'w') as file:
             json.dump(json.loads(formatted_json), file,
                       ensure_ascii=False, indent=4)
     except Exception as e:
-        print(f"Except: {e}")
+        print(f"Exception: {e}")
 
 
 def main():
@@ -104,4 +105,5 @@ def main():
         switch(user_input, contacts_memory)
 
 
-main()
+if __name__ == "__main__":
+    main()
