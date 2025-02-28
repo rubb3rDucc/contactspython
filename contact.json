@@ -1,0 +1,32 @@
+{
+    "contacts": [
+        {
+            "fname": "harry",
+            "lname": "potter",
+            "phone": "1231231234",
+            "email": "lamp@gmail.com",
+            "contact_type": "friend"
+        },
+        {
+            "fname": "sappy",
+            "lname": "girl",
+            "phone": "1231231234",
+            "email": "err@gmail.com",
+            "contact_type": "co-worker"
+        },
+        {
+            "fname": "video",
+            "lname": "star",
+            "phone": "1231231234",
+            "email": "star@gmail.com",
+            "contact_type": "family"
+        },
+        {
+            "fname": "bakery",
+            "lname": "egg",
+            "phone": "1231231234",
+            "email": "err@gmail.com",
+            "contact_type": "other"
+        }
+    ]
+}
