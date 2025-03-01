@@ -34,24 +34,54 @@ class Contact:
             yield item
 
 
-def show_program_desc():
+class ContactList:
+    def __init__(self):
+        self.contacts_memory = {}
+
+    def add_members(self, new_contact) -> None:
+        self.contacts_memory[len(self.contacts_memory)+1] = new_contact
+
+    def list_members(self) -> None:
+        for i in self.contacts_memory:
+            print(self.contacts_memory[i].to_string())
+
+    def find_if_member_by_first_name(self, fname) -> bool:
+        for k in self.contacts_memory.keys():
+            # print(self.contacts_memory.get(k).fname)
+            if self.contacts_memory.get(k).fname == fname:
+                return True
+        return False
+
+    def remove_member(self, fname) -> None:
+        for k in self.contacts_memory.keys():
+            if self.contacts_memory.get(k).fname == fname:
+                del self.contacts_memory[k]
+                break
+
+
+def show_program_desc() -> None:
     print("welcome to this contacts program rewrite in python")
 
 
-def show_menu():
-    menu = "\na. Add contact\nb. Remove contact\nl. List contacts\nq. (Q)uit"
+def show_menu() -> None:
+    menu = "\na. Add contact" + \
+           "\nd. Remove contact" + \
+           "\ne. Edit contact" + \
+           "\nl. List contacts" + \
+           "\nq. (Q)uit"
+
     print(menu)
 
 
 def switch(arg, in_memory_dict):
     if arg == "a":
         print("\nadd, not implemented")
-    elif arg == "b":
+        add_contact(in_memory_dict)
+    elif arg == "d":
         print("\nremove, not implemented")
+        delete_contact(in_memory_dict)
     elif arg == "l":
-        print("\nlist, not implemented")
-        for i in in_memory_dict:
-            print(in_memory_dict[i].to_string())
+        in_memory_dict.list_members()
     elif arg == "q":
         write_json_file(in_memory_dict)
         print("\nty for using, gb")
@@ -59,15 +89,44 @@ def switch(arg, in_memory_dict):
         print("\ninvalid input, try again")
 
 
+def add_contact(in_memory_dict):
+    new_fname = ""
+    new_lname = ""
+    new_phone = 0
+    new_email = ""
+    new_contact_type = ""
+
+    new_fname = str(input("first name: "))
+    new_lname = str(input("last name: "))
+    new_phone = str(input("phone: "))
+    new_email = str(input("email: "))
+    new_contact_type = str(input("contact type: "))
+
+    new_contact = Contact(new_fname, new_lname, new_phone,
+                          new_email, new_contact_type)
+
+    in_memory_dict.add_members(new_contact)
+    in_memory_dict.list_members()
+
+
+def delete_contact(in_memory_dict):
+    name_to_find = str(input("first name to find: "))
+    if in_memory_dict.find_if_member_by_first_name(name_to_find):
+        in_memory_dict.remove_member(name_to_find)
+        print("contact removed")
+    else:
+        print("contact not found")
+
+
 def load_json_file(in_memory_dict):
     file = open(READ_FILE, 'r')
     data = json.load(file)
-    index = 0
+    file.close()
+
     for item in data['contacts']:
         new_contact = Contact(item['fname'], item['lname'], item['phone'],
                               item['email'], item['contact_type'])
-        in_memory_dict[index] = new_contact
-        index += 1
+        in_memory_dict.add_members(new_contact)
 
     return in_memory_dict
 
@@ -75,9 +134,9 @@ def load_json_file(in_memory_dict):
 def write_json_file(in_memory_dict):
     # using dict, write to file
     contact_dict = []
-
-    for contact in in_memory_dict:
-        contact_dict.append(in_memory_dict[contact].__dict__)
+    
+    for k in in_memory_dict.contacts_memory.keys():
+        contact_dict.append(in_memory_dict.contacts_memory.get(k).__dict__)
 
     formatted_json = '{ "contacts": ' + \
         str(contact_dict).replace("\'", "\"") + \
@@ -92,7 +151,7 @@ def write_json_file(in_memory_dict):
 
 
 def main():
-    contacts_memory = {}
+    contacts_memory = ContactList()
     user_input = ""
 
     load_json_file(contacts_memory)
