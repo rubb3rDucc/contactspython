@@ -42,6 +42,7 @@ class ContactList:
         self.contacts_memory[len(self.contacts_memory)+1] = new_contact
 
     def list_members(self) -> None:
+        print("\ncontact list members\n")
         for i in self.contacts_memory:
             print(self.contacts_memory[i].to_string())
 
@@ -64,7 +65,8 @@ def show_program_desc() -> None:
 
 
 def show_menu() -> None:
-    menu = "\na. Add contact" + \
+    menu = "\nMenu" + \
+           "\na. Add contact" + \
            "\nd. Remove contact" + \
            "\ne. Edit contact" + \
            "\nl. List contacts" + \
@@ -75,10 +77,8 @@ def show_menu() -> None:
 
 def switch(arg, in_memory_dict):
     if arg == "a":
-        print("\nadd, not implemented")
         add_contact(in_memory_dict)
     elif arg == "d":
-        print("\nremove, not implemented")
         delete_contact(in_memory_dict)
     elif arg == "l":
         in_memory_dict.list_members()
@@ -111,7 +111,7 @@ def add_contact(in_memory_dict):
 
 def delete_contact(in_memory_dict):
     name_to_find = str(input("first name to find: "))
-    if in_memory_dict.find_if_member_by_first_name(name_to_find):
+    if in_memory_dict.find_if_member_by_first_name(name_to_find) is True:
         in_memory_dict.remove_member(name_to_find)
         print("contact removed")
     else:
@@ -132,7 +132,6 @@ def load_json_file(in_memory_dict):
 
 
 def write_json_file(in_memory_dict):
-    # using dict, write to file
     contact_dict = []
     
     for k in in_memory_dict.contacts_memory.keys():
