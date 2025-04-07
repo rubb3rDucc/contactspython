@@ -6,7 +6,6 @@
  - needs to load contacts in memory
 """
 
-
 import json
 
 READ_FILE = 'contact.json'
@@ -61,15 +60,17 @@ class ContactList:
 
 
 def show_program_desc() -> None:
-    print("welcome to this contacts program rewrite in python")
+    print("\nContacts List\n"
+          "I'll help you maintain you create,"
+          " maintain and modify a list of contacts.")
 
 
 def show_menu() -> None:
-    menu = "\nMenu" + \
-           "\na. Add contact" + \
-           "\nd. Remove contact" + \
-           "\ne. Edit contact" + \
-           "\nl. List contacts" + \
+    menu = "\nMenu" \
+           "\na. Add contact"  \
+           "\nd. Remove contact"  \
+           "\ne. Edit contact"  \
+           "\nl. List contacts"  \
            "\nq. (Q)uit"
 
     print(menu)
@@ -133,7 +134,7 @@ def load_json_file(in_memory_dict):
 
 def write_json_file(in_memory_dict):
     contact_dict = []
-    
+
     for k in in_memory_dict.contacts_memory.keys():
         contact_dict.append(in_memory_dict.contacts_memory.get(k).__dict__)
 
